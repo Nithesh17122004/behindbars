@@ -2,9 +2,17 @@
   "use strict";
   const nav=document.getElementById('nav'), hero=document.getElementById('hero'), heroStage=document.getElementById('heroStage'), heroUI=document.getElementById('heroUI'), progress=document.getElementById('progress');
   const canvas=document.getElementById('heroCanvas'), ctx=canvas ? canvas.getContext('2d', {alpha:false}) : null;
-  const loader=document.getElementById('heroLoader'), loaderText=document.getElementById('heroLoaderText'), loaderBar=document.getElementById('heroLoaderBar');
+  const fallbackVideo=document.getElementById('heroFallbackVideo');
   const bagBtn=document.getElementById('bag');
   const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Fallback video: shows while canvas images load (Netlify). Scrubbed by scroll until canvas is ready
+  let fallbackReady=false;
+  if(fallbackVideo){
+    fallbackVideo.muted=true; fallbackVideo.playsInline=true; fallbackVideo.preload="auto";
+    fallbackVideo.pause();
+    fallbackVideo.addEventListener('loadedmetadata',()=>{ fallbackReady=true; });
+    if(fallbackVideo.readyState>=1) fallbackReady=true;
+  }
 
   // --- Hero image sequence: 1200 images concept, actually 1191 frames ---
   const FRAME_COUNT = 1191;
@@ -20,20 +28,16 @@
   function drawFrame(idx){
     const img = images[idx];
     if(!img || !img.complete || img.naturalWidth===0 || !ctx) return;
-    // Canvas is 3840x2160, image is same => direct draw
-    // Use cover via drawing full rect (image and canvas same aspect)
     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
     currentFrame = idx;
-  }
-
-  function updateLoader(){
-    if(!loader) return;
-    const pct = Math.round(loadedCount/FRAME_COUNT*100);
-    loaderText.textContent = "LOADING 4K FRAMES " + loadedCount + " / " + FRAME_COUNT;
-    loaderBar.style.setProperty('--load', pct+'%');
-    if(loadedCount===FRAME_COUNT || loadedCount>120){
-      // hide after a short delay once enough frames are ready
-      setTimeout(()=> loader.classList.add('hidden'), loadedCount===FRAME_COUNT ? 600 : 1200);
+    // Once first frame is drawn, reveal canvas and hide fallback video (Netlify fix)
+    if(!firstDrawn){
+      firstDrawn=true;
+      canvas.classList.add('ready');
+      if(fallbackVideo){ fallbackVideo.classList.add('hidden'); fallbackVideo.pause(); }
+    } else if(fallbackVideo && !fallbackVideo.classList.contains('hidden')){
+      // Ensure fallback stays hidden after first draw
+      fallbackVideo.classList.add('hidden'); fallbackVideo.pause();
     }
   }
 
@@ -53,20 +57,16 @@
     img.onload=()=>{
       loadedCount++;
       activeLoads--;
-      updateLoader();
-      if(!firstDrawn){
+      if(!firstDrawn && idx===0){
         drawFrame(0);
-        firstDrawn=true;
       }
       // If this is the currently targeted frame, draw it immediately for responsiveness
       if(idx===targetFrame) drawFrame(idx);
       loadNext(); loadNext();
     };
     img.onerror=()=>{
-      // Retry once
       console.warn("Frame load failed", idx, frameSrc(idx));
       activeLoads--;
-      updateLoader();
       loadNext();
     };
     img.src=frameSrc(idx);
@@ -89,14 +89,25 @@
   function renderFrameImmediate(p){
     const idx=Math.min(FRAME_COUNT-1, Math.max(0, Math.floor(p*(FRAME_COUNT-1))));
     targetFrame=idx;
-    const img=images[idx];
-    if(img && img.complete && img.naturalWidth){
-      drawFrame(idx);
-    } else {
-      // If not loaded, find nearest loaded frame backwards
-      let fallback=idx;
-      while(fallback>0 && (!images[fallback] || !images[fallback].complete || images[fallback].naturalWidth===0)) fallback--;
-      if(fallback>=0 && images[fallback]) drawFrame(fallback);
+    // If canvas is ready, use it; else scrub fallback video (Netlify first paint)
+    if(firstDrawn){
+      const img=images[idx];
+      if(img && img.complete && img.naturalWidth){
+        drawFrame(idx);
+      } else {
+        let fb=idx;
+        while(fb>0 && (!images[fb] || !images[fb].complete || images[fb].naturalWidth===0)) fb--;
+        if(fb>=0 && images[fb]) drawFrame(fb);
+      }
+    } else if(fallbackVideo && fallbackReady && fallbackVideo.duration){
+      // Fallback: scrub video by scroll (no canvas yet)
+      const t=p*fallbackVideo.duration;
+      if(Math.abs(fallbackVideo.currentTime - t) > 0.05){
+        try{
+          if(fallbackVideo.fastSeek) fallbackVideo.fastSeek(t);
+          else fallbackVideo.currentTime=t;
+        }catch(e){}
+      }
     }
     progress.style.width=(p*100)+'%';
     hero.classList.toggle('is-scrolled', p>0.5);

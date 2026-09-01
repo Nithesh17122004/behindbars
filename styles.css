@@ -21,7 +21,10 @@ button{font:inherit}
 .hero-scroll{height:420vh}
 .hero-sticky{height:100vh;position:sticky;top:0;overflow:hidden;background:#000;perspective:1200px;perspective-origin:50% 30%}
 .hero-stage{position:absolute;inset:0;transform-style:preserve-3d;will-change:transform;--tilt-x:0deg;--tilt-y:0deg;--depth-y:0px;--depth-z:0px;--zoom:1;transform:translate3d(0,var(--depth-y),var(--depth-z)) rotateX(var(--tilt-y)) rotateY(var(--tilt-x)) scale(var(--zoom))}
-#heroCanvas{position:absolute;width:100%;height:100%;inset:0;object-fit:cover;transform:scale(1.04);filter:contrast(1.06) saturate(1.1) brightness(1.02);image-rendering:-webkit-optimize-contrast;will-change:transform,filter;display:block;background:#000}
+#heroCanvas{position:absolute;width:100%;height:100%;inset:0;object-fit:cover;transform:scale(1.04);filter:contrast(1.06) saturate(1.1) brightness(1.02);image-rendering:-webkit-optimize-contrast;will-change:transform,filter;display:block;background:#000;opacity:0;transition:opacity .5s}
+#heroCanvas.ready{opacity:1}
+#heroFallbackVideo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.04);filter:contrast(1.06) saturate(1.1) brightness(1.02);background:#000;transition:opacity .5s}
+#heroFallbackVideo.hidden{opacity:0;pointer-events:none;visibility:hidden}
 .hero-loader{position:absolute;left:50%;top:52%;transform:translate(-50%,-50%);z-index:5;background:#111c;border:1px solid #ffffff18;padding:10px 14px;display:flex;flex-direction:column;gap:8px;align-items:center;backdrop-filter:blur(8px);min-width:240px;transition:opacity .4s, visibility .4s}
 .hero-loader.hidden{opacity:0;visibility:hidden;pointer-events:none}
 .hero-loader span{font-size:8px;letter-spacing:.18em;color:#b99b69;text-transform:uppercase}
