@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BEHIND BARS — 3D Menswear</title>
+<meta name="description" content="Behind Bars — Five worlds, one attitude. Scroll-driven 3D hero with 1200 images at 4K 120fps.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="nav" id="nav">
+  <a class="logo" href="#hero">BEHIND<span>BARS</span></a>
+  <nav>
+    <a href="#collections">Collections</a>
+    <a href="#house">The House</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <button class="bag" id="bag" aria-label="Shopping bag">BAG <b>0</b></button>
+</header>
+
+<main>
+<!-- HERO: 420vh scroll container + sticky viewport — 1200 images (120fps x 10s) scrubbed by scroll -->
+<section class="hero-scroll" id="hero">
+  <div class="hero-sticky" id="heroSticky">
+    <div class="hero-stage" id="heroStage">
+      <canvas id="heroCanvas" width="3840" height="2160" aria-hidden="true"></canvas>
+      <div class="hero-overlay"></div>
+      <div class="hero-vignette" aria-hidden="true"></div>
+      <div class="hero-grain" aria-hidden="true"></div>
+      <div class="hero-glow" aria-hidden="true"></div>
+    </div>
+    <div class="hero-ui" id="heroUI">
+      <p class="eyebrow">BEHIND BARS / A.W. 2026</p>
+      <h1>ENTER<br><i>THE HOUSE</i></h1>
+      <a href="#collections" class="pill">Explore the house <span>↗</span></a>
+    </div>
+    <div class="scroll-indicator"><span>SCROLL TO ENTER</span><i></i></div>
+    <div class="progress"><span id="progress"></span></div>
+  </div>
+</section>
+
+<section class="transition-section">
+  <div class="transition-inner">
+    <p class="eyebrow">THE WARDROBE — CINEMATIC</p>
+    <h2>Five worlds.<br><i>One attitude.</i></h2>
+    <p>Move through the collection as if you are walking through the house. Each room has its own rhythm — original video, uncompromised.</p>
+  </div>
+</section>
+
+<section id="collections" class="collections">
+  <div class="section-head">
+    <div><p class="eyebrow">01 — 05</p><h2>THE COLLECTION</h2></div>
+    <p>Scroll to bring each world into focus.<br>Original video for collection rooms.</p>
+  </div>
+
+  <div class="rooms">
+    <article class="room" data-category="Formal">
+      <div class="room-number">01</div>
+      <div class="room-media"><video muted playsinline loop preload="metadata" src="videos/formal.mp4"></video></div>
+      <div class="room-copy"><p class="eyebrow">THE TAILORING ROOM</p><h3>Formal</h3><p>Sharp silhouettes, quiet luxury and precise tailoring.</p><button class="explore">EXPLODE VIEW <span>↗</span></button></div>
+      <div class="depth-orb" aria-hidden="true"></div>
+    </article>
+
+    <article class="room reverse" data-category="Casual">
+      <div class="room-number">02</div>
+      <div class="room-media"><video muted playsinline loop preload="metadata" src="videos/casual.mp4"></video></div>
+      <div class="room-copy"><p class="eyebrow">THE EVERYDAY ROOM</p><h3>Casual</h3><p>Relaxed proportions with a considered finish.</p><button class="explore">EXPLODE VIEW <span>↗</span></button></div>
+      <div class="depth-orb" aria-hidden="true"></div>
+    </article>
+
+    <article class="room" data-category="Active">
+      <div class="room-number">03</div>
+      <div class="room-media"><video muted playsinline loop preload="metadata" src="videos/active.mp4"></video></div>
+      <div class="room-copy"><p class="eyebrow">THE MOTION ROOM</p><h3>Active</h3><p>Performance pieces designed to move with you.</p><button class="explore">EXPLODE VIEW <span>↗</span></button></div>
+      <div class="depth-orb" aria-hidden="true"></div>
+    </article>
+
+    <article class="room reverse" data-category="Traditional">
+      <div class="room-number">04</div>
+      <div class="room-media"><video muted playsinline loop preload="metadata" src="videos/casual.mp4"></video></div>
+      <div class="room-copy"><p class="eyebrow">THE HERITAGE ROOM</p><h3>Traditional</h3><p>Modern occasionwear with a sense of heritage.</p><button class="explore">EXPLODE VIEW <span>↗</span></button></div>
+      <div class="depth-orb" aria-hidden="true"></div>
+    </article>
+
+    <article class="room" data-category="Shoes">
+      <div class="room-number">05</div>
+      <div class="room-media"><video muted playsinline loop preload="metadata" src="videos/sport.mp4"></video></div>
+      <div class="room-copy"><p class="eyebrow">THE FOOTWEAR ROOM</p><h3>Shoes</h3><p>The final layer. From polished leather to street-ready runners.</p><button class="explore">EXPLODE VIEW <span>↗</span></button></div>
+      <div class="depth-orb" aria-hidden="true"></div>
+    </article>
+  </div>
+</section>
+
+<section id="house" class="house">
+  <div class="house-mark">BB</div>
+  <div><p class="eyebrow">THE HOUSE — CRAFT & CODE</p><h2>LESS NOISE.<br><i>MORE PRESENCE.</i></h2><p>Behind Bars is an edit of modern menswear built around confidence, restraint and detail. The hero is now a true image sequence — 1200 frames at 120 fps — scrubbed directly by your scroll for zero video-seek jank.</p></div>
+</section>
+
+<section id="contact" class="contact">
+  <p class="eyebrow">PRIVATE ACCESS</p>
+  <h2>YOUR NEXT<br><i>SIGNATURE PIECE.</i></h2>
+  <a class="pill dark" href="#collections">Shop the collection <span>↗</span></a>
+  <p style="margin-top:18px;font-size:11px;letter-spacing:.1em;color:#665d51;max-width:420px;text-align:center;line-height:1.6">Hero sequence: <code>images/hero/frame_0001.jpg → frame_1191.jpg</code> — 3840×2160, JPG qscale 6 (~228 MB total), extracted with Lanczos + unsharp + minterpolate blend to 120fps. Rooms use original <code>videos/*.mp4</code> (720p).</p>
+</section>
+</main>
+
+<div class="modal" id="modal" aria-hidden="true">
+  <div class="modal-bg"></div>
+  <div class="modal-card">
+    <button class="close" id="close" aria-label="Close modal">×</button>
+    <p class="eyebrow" id="modalEyebrow">01 / EXPLODED VIEW</p>
+    <h2 id="modalTitle">Formal</h2>
+    <p id="modalDescription">Explore the individual pieces.</p>
+    <div class="explode-stage" id="explodeStage">
+      <div class="piece p1">JACKET</div><div class="piece p2">SHIRT</div><div class="piece p3">TROUSER</div>
+      <div class="piece p4">BELT</div><div class="piece p5">WATCH</div><div class="piece p6">SHOE</div>
+    </div>
+    <div class="product-row" id="productRow"></div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
