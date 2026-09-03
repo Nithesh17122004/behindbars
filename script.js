@@ -14,8 +14,8 @@
     if(fallbackVideo.readyState>=1) fallbackReady=true;
   }
 
-  // --- Hero image sequence: 1200 images concept, actually 1191 frames ---
-  const FRAME_COUNT = 1191;
+  // --- Hero image sequence: 600 images (60fps x 10s) in 4K ---
+  const FRAME_COUNT = 600;
   const FRAME_DIR = "images/hero";
   const images = new Array(FRAME_COUNT);
   let loadedCount=0, firstDrawn=false;
@@ -248,7 +248,7 @@
   document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',()=>{ if(modal.classList.contains('open')) closeModal(); }));
   bagBtn.addEventListener('click',()=>{
     if(bagCount===0) alert('Your bag is empty. Explore the rooms and add pieces.');
-    else alert('Checkout demo — '+bagCount+' item(s) in bag. Hero frames: images/hero/ (1191 × 4K, 120fps). Rooms: original 720p video.');
+    else alert('Checkout demo — '+bagCount+' item(s) in bag. Hero frames: images/hero/ (600 × 4K, 60fps). Rooms: original 720p video.');
   });
   updateBag();
 })();
